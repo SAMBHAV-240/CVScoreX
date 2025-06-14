@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resume Quality Analyzer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 5 and Animate.css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet"/>
+
+    <style>
+        /* Animated star background */
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .stars {
+            width: 100%;
+            height: 100%;
+            background: transparent url('https://raw.githubusercontent.com/VincentGarreau/particles.js/master/demo/media/stars.png') repeat top center;
+            animation: moveStars 200s linear infinite;
+            position: fixed;
+            z-index: 0;
+        }
+
+        @keyframes moveStars {
+            from {background-position: 0 0;}
+            to {background-position: 10000px 5000px;}
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            padding-top: 60px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+        }
+
+        .form-label, h2, h5 {
+            color: #f0f0f0;
+        }
+
+        .btn-primary {
+            background-color: #00bcd4;
+            border: none;
+        }
+
+        .pop-box {
+    background-color: rgba(30, 30, 30, 0.88);
+    color: #ffffff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    margin-bottom: 1.5rem;
+}
+
+.pop-box:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(0, 224, 255, 0.4);
+    z-index: 10;
+}
+
+/* Resume preview scroll box */
+.resume-preview-box {
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    padding: 1rem;
+    color: #ffffff;
+    max-height: 300px;
+    overflow-y: scroll;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 0 10px rgba(0, 224, 255, 0.1);
+}
+
+/* Improve button appearance */
+.btn:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+        a.btn-outline-secondary {
+            border-color: #00bcd4;
+            color: #00bcd4;
+        }
+        a.btn-outline-secondary:hover {
+            background-color: #00bcd4;
+            color: white;
+        }
+        .heading-bright {
+    color: #00eaff;
+}
+
+.suggestion-list li {
+    color: #ffffff;
+    padding: 6px 0;
+}
+
+.pop-hover {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.pop-hover:hover {
+    transform: scale(1.04);
+}
+
+.suggestion-list::-webkit-scrollbar,
+.resume-preview-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.suggestion-list::-webkit-scrollbar-thumb,
+.resume-preview-box::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 224, 255, 0.4);
+    border-radius: 4px;
+}
+
+        /* Fix visibility and hover animations */
+        
+    </style>   
+</head>
+<body>
+<div class="container">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold animate__animated animate__fadeInDown">Resume Quality Analyzer</h2>
+        <p class="text-muted">Analyze your resume's overall quality and structure</p>
+    </div>
+
+    <div class="card pop-box shadow-sm p-4">
+        <form method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="resume" class="form-label">Upload Resume (.pdf, .docx, .txt)</label>
+                <input type="file" name="resume" id="resume" class="form-control" accept=".pdf,.docx,.txt" required>
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Analyze Resume</button>
+            </div>
+        </form>
+    </div>
+
+    {% if score is not none %}
+<div class="pop-box alert alert-info mt-4">
+    <h5 class="fw-bold text-info">Match Score: {{ score }}%</h5>
+
+    {% if suggestions %}
+    <h5 class="mt-4 fw-bold text-light">Suggestions to Improve Match:</h5>
+    <ul class="suggestion-list">
+        {% for s in suggestions %}
+        <li>{{ s }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+{% endif %}
+
+{% if improvements %}
+<div class="pop-box mt-4">
+    <h5 class="fw-bold heading-bright">Suggestions for Improvement:</h5>
+    <ul class="suggestion-list">
+        {% for tip in improvements %}
+        <li>{{ tip }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+
+    {% if error %}
+        <div class="alert alert-danger mt-4">{{ error }}</div>
+    {% endif %}
+
+    <div class="text-end mt-4">
+        <a href="/" class="btn btn-outline-secondary">Back to Matcher</a>
+    </div>
+</div>
+</body>
+</html>
