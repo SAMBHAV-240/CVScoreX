@@ -110,6 +110,6 @@ This project is licensed under the MIT License. See the LICENSE file for more de
 Contact
 For any questions or inquiries, please contact:
 
-Anukalp Mishra
+Sambhav
 
-GitHub: anukalp-mishra
+GitHub: SAMBHAV-240
